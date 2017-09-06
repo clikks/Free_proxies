@@ -6,7 +6,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import platform
 
 class Proxies_init:
-    def __init__(self,index=None,proxy_page=None,header={},pagination=2):
+    def __init__(self,index=None,proxy_page=None,header=None,pagination=2):
         print('{}Inital program ready!{}'.format('='*10,'='*10))
         # self.pagination = pagination
         self.index = 'http://www.kuaidaili.com/free'    #index代理主页地址
@@ -25,7 +25,7 @@ class Proxies_init:
                         'X-Requested-With' : 'XMLHttpRequest',
                         }
 
-    def get_cookie(self,phantomjsPath = None):
+    def get_header(self,phantomjsPath = None):
         params = dict(DesiredCapabilities.PHANTOMJS)
         #PhantomJS类属性，为字典类型
         params["phantomjs.page.settings.userAgent"] = (self.header['User-Agent'])
@@ -34,8 +34,8 @@ class Proxies_init:
         sys = platform.system()                         #获取操作系统类型
         print("Call {}'s PhantomJS path!".format(sys))
         if sys == 'Windows':
-            # self.phantomjsPath = r'D:\webdrive\phantomjs\bin\phantomjs.exe'
-            self.phantomjsPath = r'd:\phan.exe'
+            self.phantomjsPath = r'D:\webdrive\phantomjs\bin\phantomjs.exe'
+            # self.phantomjsPath = r'd:\phan.exe'
         elif sys == 'Linux':
             self.phantomjsPath = r'/usr/local/bin/phantomjs'
         else:
@@ -74,6 +74,11 @@ class Proxies_init:
                 pagecount = result.xpath('/html/body/div[@class="body"]/div[@id="content"]/div[@class="con-body"]\
                 /div/div[@id="list"]/div[@id="listnav"]/ul/li[last()-1]/a/text()')
                 # print(int(pagecount[0]))
-                return int(pagecount[0])    #返回快代理免费代理总页数
+                return int(pagecount[0]),html_page   #返回快代理免费代理总页数
                 break
 
+if __name__ == '__main__':
+    c1 = Proxies_init()
+    c1.get_header()
+    X = c1.page_count()
+    print(X[1].text)
