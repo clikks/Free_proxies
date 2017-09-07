@@ -1,12 +1,14 @@
-import requests
-import time
+#!/usr/bin/python3
+# _*_ coding:utf-8 _*_
+__author__ = 'anyco'
+
+import requests,time,os,platform
 from lxml import etree
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-import platform
 
 class Proxies_init:
-    def __init__(self,index=None,proxy_page=None,header=None,pagination=2):
+    def __init__(self, index=None, proxy_page=None, header=None, pagination=2):
         print('{}Inital program ready!{}'.format('='*10,'='*10))
         # self.pagination = pagination
         self.index = 'http://www.kuaidaili.com/free'    #index代理主页地址
@@ -25,14 +27,14 @@ class Proxies_init:
                         'X-Requested-With' : 'XMLHttpRequest',
                         }
 
-    def get_header(self,phantomjsPath = None):
+    def get_header(self, phantomjsPath = None):
         params = dict(DesiredCapabilities.PHANTOMJS)
         #PhantomJS类属性，为字典类型
         params["phantomjs.page.settings.userAgent"] = (self.header['User-Agent'])
         #定义PhantomJS的UserAgent
-        print('Confirm system platform type!')
+        print('Confirming the system platform type...')
         sys = platform.system()                         #获取操作系统类型
-        print("Call {}'s PhantomJS path!".format(sys))
+        # print("Calling {}'s PhantomJS path!".format(sys))
         if sys == 'Windows':
             self.phantomjsPath = r'D:\webdrive\phantomjs\bin\phantomjs.exe'
             # self.phantomjsPath = r'd:\phan.exe'
@@ -42,8 +44,10 @@ class Proxies_init:
             self.phantomjsPath = phantomjsPath
         driver = webdriver.PhantomJS(executable_path=self.phantomjsPath,desired_capabilities=params)
         #seltnium的webdriver，提供phantomJS的路径和UserAgent.
-        driver.get(self.index)     #网页请求
+        driver.get(self.index)                          #网页请求
         time.sleep(3)                                   #等待3秒
+        os.system('cls')
+        print("Calling {}'s PhantomJS to analyze webpage...".format(sys))
         driver.refresh()                                #刷新页面
         cookies = driver.get_cookies()                  #获得cookie列表
         # print(cookies)
