@@ -8,7 +8,7 @@ from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 class Proxies_init:
-    def __init__(self, index=None, proxy_page=None, header=None, pagination=2):
+    def __init__(self):
         print('{}Inital program ready!{}'.format('='*10,'='*10))
         # self.pagination = pagination
         self.index = 'http://www.kuaidaili.com/free'    #index代理主页地址
@@ -85,4 +85,4 @@ if __name__ == '__main__':
     c1 = Proxies_init()
     c1.get_header()
     X = c1.page_count()
-    print(X[1].text)
+    print(X[0])
