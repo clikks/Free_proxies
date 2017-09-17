@@ -13,8 +13,17 @@ class Proxiesdata:
     def __init__(self):
         self.Instance = Proxiesinit()       # 实例化Proxiesinit类
         self.header = self.Instance.get_header()    # 将Proxiesinit()的get_header方法赋值给header
-        self.page_num,self.index = self.Instance.page_count()   # 将page_count方法的值赋值给page_num和index
+        self.page_num, self.index = self.Instance.page_count()   # 将page_count方法的值赋值给page_num和index
         self.proxy_page = 'http://www.kuaidaili.com/free/inha/%s/'  # 定义proxy_page的网页url
+
+    def proxy_url(self):
+        self.pagenum = [i for i in range(1,self.page_num+1)]
+        s = int(self.page_num/100) + 1
+        self.allurl = list()
+        for i in range(s):
+            self.allurl.append(self.pagenum[0:100])
+            del self.pagenum[0:100]
+        print(self.allurl)
 
     def analyze_page(self):     # 代理页面解析方法
         os.system('cls')        # 清屏
@@ -53,5 +62,5 @@ class Proxiesdata:
 if __name__ == '__main__':
     ClassInstance = Proxiesdata()
     print(ClassInstance.page_num)
-    print(ClassInstance.analyze_page())
-
+    # print(ClassInstance.analyze_page())
+    ClassInstance.proxy_url()
