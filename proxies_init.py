@@ -32,22 +32,25 @@ class Proxiesinit:
         self.params["phantomjs.page.settings.userAgent"] = (self.header['User-Agent'])
         self.params["phantomjs.page.settings.loadImages"] = False  # 定义PhantomJS的UserAgent及关闭图片加载
         self.lock = threading.Lock()
+        self.driver = webdriver.PhantomJS(executable_path=self.phantomjsPath, desired_capabilities=self.params)
+        # self.driver = webdriver.Chrome(executable_path=self.phantomjsPath)
+
     def get_header(self):
         self.lock.acquire()  # 线程锁
-        driver = webdriver.PhantomJS(executable_path=self.phantomjsPath, desired_capabilities=self.params)
+        # self.driver = webdriver.PhantomJS(executable_path=self.phantomjsPath, desired_capabilities=self.params)
         # seltnium的webdriver，提供phantomJS的路径和UserAgent.
-        driver.get(self.index)  # 网页请求
+        self.driver.get(self.index)  # 网页请求
         sleep(3)
         if self.count == 1:
             print("Calling PhantomJS to analyze webpage...".format(sys))
         else:
             print('Get new header!')
-        cookies = driver.get_cookies()  # 获得cookie列表
+        cookies = self.driver.get_cookies()  # 获得cookie列表
         items = [value['name'] + '=' + value['value'] for value in cookies]  # 格式化cookie内容
         # print(items)
         self.header['Cookie'] = '; '.join(items)  # 将格式化的cookie赋值给header内
         # print(self.header['Cookie'])
-        driver.quit()
+        # self.driver.close()
         self.count += 1
         self.lock.release()
         return self.header

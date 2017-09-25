@@ -13,8 +13,9 @@ import time
 class Proxiesdata:
     def __init__(self):
         # self.lock = threading.Lock()
-        # self.Instance = Proxiesinit(r'D:\webdrive\phantomjs\bin\phantomjs.exe')       # 实例化Proxiesinit类
-        self.Instance = Proxiesinit(r'/usr/local/bin/phantomjs')
+        self.Instance = Proxiesinit(r'D:\webdrive\phantomjs\bin\phantomjs.exe')       # 实例化Proxiesinit类
+        # self.Instance = Proxiesinit(r'D:\Program Files\chromedriver.exe')
+        # self.Instance = Proxiesinit(r'/usr/local/bin/phantomjs')
         self.header = self.Instance.get_header()    # 将Proxiesinit()的get_header方法赋值给header
         self.page_num, self.index = self.Instance.page_count()   # 将page_count方法的值赋值给page_num和index
         self.proxy_page = 'http://www.kuaidaili.com/free/inha/%s/'  # 定义proxy_page的网页url
@@ -44,6 +45,7 @@ class Proxiesdata:
                     count = 1
                     while page.status_code != 200:  # 对url未请求成功则重新获取header再次请求
                         print('Page %d %d times request Failed! Re request!' %(num, count))
+                        self.Instance.index = url
                         self.header = self.Instance.get_header()
                         page = self.req.get(url, headers=self.header, timeout=30)
                         count += 1
@@ -85,6 +87,7 @@ class Proxiesdata:
         endtime = time.time()
         usetime = time.localtime(endtime - starttime)
         print('All Thread finished!Execution time %s' %(time.strftime('%M:%S',usetime)))
+        self.Instance.driver.quit()
         with open('proxies_ip.db','wb') as f:
             pickle.dump(self.dbase,f)
             pickle.dump(self.failed,f)
