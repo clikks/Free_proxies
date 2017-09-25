@@ -46,10 +46,10 @@ class Proxiesdata:
                         self.header = self.Instance.get_header()
                         page = self.req.get(url, headers=self.header, timeout=30)
                         count += 1
-                        if count > 10:  # 请求失败超过10次则放弃当前页面请求并将页码添加到failed列表
+                        if count > 5:  # 请求失败超过10次则放弃当前页面请求并将页码添加到failed列表
                             self.failed.add(num)
                             break
-                    if count > 10:
+                    if count > 5:
                         print('Page %d can not access!Continue request next page!' %num)
                         continue
                     else:
@@ -60,7 +60,7 @@ class Proxiesdata:
                 # sleep(3)
                 except:
                     print('Network Error!Please check it!')
-                    self.failed.append(num)
+                    self.failed.add(num)
 
     def mutil_thread(self):
         urladdress = self.proxy_url()   # 实例化分组页码函数
@@ -78,12 +78,12 @@ class Proxiesdata:
         for t in thread_num:
             t.start()
         for thread in thread_num:   # 将多线程的所有线程阻塞，等待所有线程执行完毕。
-            print('Thread join time is %d' %(time.strftime('%H:%M:%S',time.localtime())))
+            print('Thread join time is %s' %(time.strftime('%H:%M:%S',time.localtime())))
             thread.join()
             # print('Thread finished!')
         endtime = time.time()
         usetime = time.localtime(endtime - starttime)
-        print('All Thread finished!Execution time %d' %(time.strftime('%M:%S',usetime)))
+        print('All Thread finished!Execution time %s' %(time.strftime('%M:%S',usetime)))
         with open('proxies_ip.db','wb') as f:
             pickle.dump(self.dbase,f)
             pickle.dump(self.failed,f)
@@ -102,5 +102,5 @@ if __name__ == '__main__':
         print(succed)
         fail = pickle.load(f)
         print(fail)
-    print(ClassInstance.failed)
+    # print(ClassInstance.failed)
     # print(ClassInstance.dbase)
