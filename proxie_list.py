@@ -13,7 +13,8 @@ import time
 class Proxiesdata:
     def __init__(self):
         # self.lock = threading.Lock()
-        self.Instance = Proxiesinit(r'D:\webdrive\phantomjs\bin\phantomjs.exe')       # 实例化Proxiesinit类
+        # self.Instance = Proxiesinit(r'D:\webdrive\phantomjs\bin\phantomjs.exe')       # 实例化Proxiesinit类
+        self.Instance = Proxiesinit(r'/usr/local/bin/phantomjs')
         self.header = self.Instance.get_header()    # 将Proxiesinit()的get_header方法赋值给header
         self.page_num, self.index = self.Instance.page_count()   # 将page_count方法的值赋值给page_num和index
         self.proxy_page = 'http://www.kuaidaili.com/free/inha/%s/'  # 定义proxy_page的网页url
